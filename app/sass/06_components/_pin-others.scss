@@ -1,0 +1,27 @@
+.-others {
+  fill: $others;
+
+  >.pin-icon >.-pin {
+    fill: $others;
+  }
+
+  &.--kitchen {
+    top: 33vmin;
+    left: 72vmin;
+  }
+
+  &.--istanbul {
+    top: 32vmin;
+    left: 60vmin;
+  }
+}
+
+.content__item[data-category='6'] >.content__item-title {
+	color: $others;
+}
+
+.grouped-by-category > [data-category='6']:first-child::before,
+.grouped-by-category > :not([data-category='6']) + [data-category='6']::before {
+	content: 'Others';
+	color: $others;
+}

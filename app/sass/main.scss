@@ -17,8 +17,19 @@
 @import
 '05_basics/type';
 
-// @import
-// '06_components/foo';
+@import
+'06_components/indoor',
+'06_components/pin',
+
+'06_components/pin-conference',
+'06_components/pin-lounge',
+'06_components/pin-meeting',
+'06_components/pin-others',
+'06_components/pin-phone',
+'06_components/pin-relax';
+
+
+
 
 @import
 '07_layouts/page';

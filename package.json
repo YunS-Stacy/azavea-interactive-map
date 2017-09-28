@@ -1,6 +1,7 @@
 {
   "name": "azavea-indoor-map",
   "version": "1.0.0",
+  "license": "MIT",
   "engines": {
     "node": ">=4"
   },

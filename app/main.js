@@ -1,8 +1,3 @@
-
-;(function(window) {
-	
-		'use strict';
-	
 		// helper functions
 		// from https://davidwalsh.name/vendor-prefix
 		var prefix = (function () {
@@ -19,7 +14,7 @@
 		})();
 		
 		// vars & stuff
-		var support = {transitions : Modernizr.csstransitions},
+		const support = {transitions : Modernizr.csstransitions},
 			transEndEventNames = {'WebkitTransition': 'webkitTransitionEnd', 'MozTransition': 'transitionend', 'OTransition': 'oTransitionEnd', 'msTransition': 'MSTransitionEnd', 'transition': 'transitionend'},
 			transEndEventName = transEndEventNames[Modernizr.prefixed('transition')],
 			onEndTransition = function(el, callback, propTest) {
@@ -46,11 +41,11 @@
 			// total levels
 			indoorLevelsTotal = indoorLevels.length,
 			// surroundings elems
-			indoorSurroundings = [].slice.call(indoor.querySelectorAll('.surroundings')),
+			indoorSurroundings = [].slice.call(indoor.querySelectorAll('.surroundings'));
 			// selected level position
-			selectedLevel,
+			let selectedLevel;
 			// navigation element wrapper
-			indoornav = document.querySelector('.indoornav'),
+			const indoornav = document.querySelector('.indoornav'),
 			// show all indoor´s levels ctrl
 			allLevelsCtrl = indoornav.querySelector('.indoornav__button--all-levels'),
 			// pins
@@ -58,23 +53,23 @@
 			// content element
 			contentEl = document.querySelector('.content'),
 			// content close ctrl
-			contentCloseCtrl = contentEl.querySelector('button.content__button'),
+			contentCloseCtrl = contentEl.querySelector('button.content__button');
 			// check if a content item is opened
-			isOpenContentArea,
+			let isOpenContentArea,
 			// check if currently animating/navigating
 			isNavigating,
 			// check if all levels are shown or if one level is shown (expanded)
-			isExpanded,
+			isExpanded;
 			// spaces list element
-			spacesListEl = document.getElementById('spaces-list'),
+			const spacesListEl = document.getElementById('spaces-list'),
 			// spaces list ul
 			spacesEl = spacesListEl.querySelector('ul.list'),
 			// all the spaces listed
-			spaces = [].slice.call(spacesEl.querySelectorAll('.list__item > a.list__link')),
+			spaces = [].slice.call(spacesEl.querySelectorAll('.list__item > a.list__link'));
 			// reference to the current shows space (name set in the data-name attr of both the listed spaces and the pins on the map)
-			spaceref,
+			let spaceref;
 			// sort by ctrls
-			sortByNameCtrl = document.querySelector('#sort-by-name'),
+			const sortByNameCtrl = document.querySelector('#sort-by-name'),
 			// listjs initiliazation (all indoor´s spaces)
 			spacesList = new List('spaces-list', { valueNames: ['list__link', { data: ['level'] }, { data: ['category'] } ]} ),
 	
@@ -97,9 +92,8 @@
 		function initEvents() {
 			// click on a Mall´s level
 			indoorLevels.forEach(function(level, pos) {
-				level.addEventListener('click', function() {
+				$(level).on('click', () => {
 					// shows this level
-					console.log(pos, 'pos');
 					showLevel(pos+1);
 				});
 			});
@@ -113,35 +107,38 @@
 			// sort by name ctrl - add/remove category name (css pseudo element) from list and sorts the spaces by name 
 			sortByNameCtrl.addEventListener('click', function() {
 				if( this.checked ) {
-					classie.remove(spacesEl, 'grouped-by-category');
+					$(spacesEl).removeClass('grouped-by-category');
 					spacesList.sort('list__link');
 				}
 				else {
-					classie.add(spacesEl, 'grouped-by-category'); 
+					$(spacesEl).addClass('grouped-by-category'); 
 					spacesList.sort('category');
 				}
 			});
 	
 			// hovering a pin / clicking a pin
 			pins.forEach(function(pin) {
+				console.log(pin, 'pin')
 				var contentItem = contentEl.querySelector('.content__item[data-space="' + pin.getAttribute('data-space') + '"]');
 	
 				pin.addEventListener('mouseenter', function() {
+					console.log(contentItem, 'mouseenter')
 					if( !isOpenContentArea ) {
-						classie.add(contentItem, 'content__item--hover');
+						$(contentItem).addClass('content__item--hover');
 					}
 				});
 				pin.addEventListener('mouseleave', function() {
 					if( !isOpenContentArea ) {
-						classie.remove(contentItem, 'content__item--hover');
+						$(contentItem).removeClass('content__item--hover');
 					}
 				});
 				pin.addEventListener('click', function(ev) {
 					ev.preventDefault();
 					// open content for this pin
+					console.log(contentItem, 'contentitem', pin.getAttribute('data-space'), 'open content begins')
 					openContent(pin.getAttribute('data-space'));
 					// remove hover class (showing the title)
-					classie.remove(contentItem, 'content__item--hover');
+					$(contentItem).removeClass('content__item--hover');
 				});
 			});
 	
@@ -189,14 +186,14 @@
 			// update selected level val
 			selectedLevel = level;
 	
-			classie.add(indoorLevelsEl, 'levels--selected-' + selectedLevel);
+			$(indoorLevelsEl).addClass(`levels--selected-${selectedLevel}`);
 			
 			// the level element
 			var levelEl = indoorLevels[selectedLevel - 1];
-			classie.add(levelEl, 'level--current');
+			$(levelEl).addClass('level--current');
 	
 			onEndTransition(levelEl, function() {
-				classie.add(indoorLevelsEl, 'levels--open');
+				$(indoorLevelsEl).addClass('levels--open');
 	
 				// show level pins
 				showPins();
@@ -223,9 +220,9 @@
 			}
 			isExpanded = false;
 	
-			classie.remove(indoorLevels[selectedLevel - 1], 'level--current');
-			classie.remove(indoorLevelsEl, 'levels--selected-' + selectedLevel);
-			classie.remove(indoorLevelsEl, 'levels--open');
+			$(indoorLevels[selectedLevel - 1]).removeClass('level--current');
+			$(indoorLevelsEl).removeClass('levels--selected-' + selectedLevel);
+			$(indoorLevelsEl).removeClass('levels--open');
 	
 			// hide level pins
 			removePins();
@@ -259,7 +256,7 @@
 		 */
 		function showPins(levelEl) {
 			var levelEl = levelEl || indoorLevels[selectedLevel - 1];
-			classie.add(levelEl.querySelector('.level__pins'), 'level__pins--active');
+			$(levelEl.querySelector('.level__pins')).addClass('level__pins--active');
 		}
 	
 		/**
@@ -267,21 +264,21 @@
 		 */
 		function removePins(levelEl) {
 			var levelEl = levelEl || indoorLevels[selectedLevel - 1];
-			classie.remove(levelEl.querySelector('.level__pins'), 'level__pins--active');
+			$(levelEl.querySelector('.level__pins')).removeClass('level__pins--active');
 		}
 	
 		/**
 		 * Show the navigation ctrls
 		 */
 		function showindoornav() {
-			classie.remove(indoornav, 'indoornav--hidden');
+			$(indoornav).removeClass('indoornav--hidden');
 		}
 	
 		/**
 		 * Hide the navigation ctrls
 		 */
 		function hideindoornav() {
-			classie.add(indoornav, 'indoornav--hidden');
+			$(indoornav).addClass('indoornav--hidden');
 		}
 	
 		/**
@@ -289,7 +286,7 @@
 		 */
 		function showSurroundings() {
 			indoorSurroundings.forEach(function(el) {
-				classie.remove(el, 'surroundings--hidden');
+				$(el).removeClass('surroundings--hidden');
 			});
 		}
 	
@@ -298,7 +295,7 @@
 		 */
 		function hideSurroundings() {
 			indoorSurroundings.forEach(function(el) {
-				classie.add(el, 'surroundings--hidden');
+				$(el).addClass('surroundings--hidden');
 			});
 		}
 	
@@ -330,20 +327,20 @@
 			// control navigation controls state (enabled/disabled)
 			setNavigationState();
 			// transition direction class
-			classie.add(currentLevel, 'level--moveOut' + direction);
+			$(currentLevel).addClass(`level--moveOut${direction}`);
 			// next level element
 			var nextLevel = indoorLevels[selectedLevel-1]
 			// ..becomes the current one
-			classie.add(nextLevel, 'level--current');
+			$(nextLevel).addClass('level--current');
 	
 			// when the transition ends..
 			onEndTransition(currentLevel, function() {
-				classie.remove(currentLevel, 'level--moveOut' + direction);
+				$(currentLevel).removeClass(`level--moveOut${direction}`);
 				// solves rendering bug for the SVG opacity-fill property
-				setTimeout(function() {classie.remove(currentLevel, 'level--current');}, 60);
+				setTimeout(function() {$(currentLevel).removeClass('level--current');}, 60);
 	
-				classie.remove(indoorLevelsEl, 'levels--selected-' + prevSelectedLevel);
-				classie.add(indoorLevelsEl, 'levels--selected-' + selectedLevel);
+				$(indoorLevelsEl).removeClass(`levels--selected-${prevSelectedLevel}`);
+				$(indoorLevelsEl).addClass(`levels--selected-${selectedLevel}`);
 	
 				// show the current level´s pins
 				showPins();
@@ -362,6 +359,7 @@
 		 * Opens/Reveals a content item.
 		 */
 		function openContent(spacerefval) {
+			console.log(spacerefval, 'spacerefval')
 			// if one already shown:
 			if( isOpenContentArea ) {
 				hideSpace();
@@ -376,18 +374,19 @@
 			// remove class active (if any) from current list item
 			var activeItem = spacesEl.querySelector('li.list__item--active');
 			if( activeItem ) {
-				classie.remove(activeItem, 'list__item--active');
+				$(activeItem).removeClass('list__item--active');
 			}
 			// list item gets class active
-			classie.add(spacesEl.querySelector('li[data-space="' + spacerefval + '"]'), 'list__item--active');
+			console.log('spacesEl', spacesEl.querySelector(`li[data-space="${spacerefval}"]`))
+			$(spacesEl.querySelector(`li[data-space="${spacerefval}"]`)).addClass('list__item--active');
 	
 			// remove class selected (if any) from current space
 			var activeSpaceArea = indoorLevels[selectedLevel - 1].querySelector('svg > .map_space--selected');
 			if( activeSpaceArea ) {
-				classie.remove(activeSpaceArea, 'map_space--selected');
+				$(activeSpaceArea).removeClass('map_space--selected');
 			}
 			// svg area gets selected
-			classie.add(indoorLevels[selectedLevel - 1].querySelector('svg > .map_space[data-space="' + spaceref + '"]'), 'map_space--selected');
+			$('svg > .map_space[data-space="' + spaceref + '"]').addClass('map_space--selected');
 		}
 	
 		/**
@@ -398,9 +397,9 @@
 			// shows space
 			showSpace(true);
 			// show close ctrl
-			classie.remove(contentCloseCtrl, 'content__button--hidden');
+			$(contentCloseCtrl).removeClass('content__button--hidden');
 			// resize indoor area
-			classie.add(indoor, 'indoor--content-open');
+			$(indoor).addClass('indoor--content-open');
 		}
 	
 		/**
@@ -408,29 +407,29 @@
 		 */
 		function showSpace(sliding) {
 			// the content item
-			var contentItem = contentEl.querySelector('.content__item[data-space="' + spaceref + '"]');
+			const contentItem = document.querySelector(`.content__item[data-space='${spaceref}']`);
 			// show content
-			classie.add(contentItem, 'content__item--current');
+			$(contentItem).addClass('content__item--current');
 			if( sliding ) {
 				onEndTransition(contentItem, function() {
-					classie.add(contentEl, 'content--open');
+					$(contentEl).addClass('content--open');
 				});
 			}
 			// map pin gets selected
-			classie.add(indoorLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+			$(`.pin[data-space='${spaceref}']`).addClass('--active');
 		}
 	
 		/**
 		 * Closes the content area.
 		 */
 		function closeContentArea() {
-			classie.remove(contentEl, 'content--open');
+			$(contentEl).removeClass('content--open');
 			// close current space
 			hideSpace();
 			// hide close ctrl
-			classie.add(contentCloseCtrl, 'content__button--hidden');
+			$(contentCloseCtrl).addClass('content__button--hidden');
 			// resize indoor area
-			classie.remove(indoor, 'indoor--content-open');
+			$(indoor).removeClass('indoor--content-open');
 			// enable indoor nav ctrls
 			if( isExpanded ) {
 				setNavigationState();
@@ -445,18 +444,18 @@
 			// the content item
 			var contentItem = contentEl.querySelector('.content__item[data-space="' + spaceref + '"]');
 			// hide content
-			classie.remove(contentItem, 'content__item--current');
+			$(contentItem).removeClass('content__item--current');
 			// map pin gets unselected
-			classie.remove(indoorLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]'), 'pin--active');
+			$(indoorLevelsEl.querySelector('.pin[data-space="' + spaceref + '"]')).removeClass('--active');
 			// remove class active (if any) from current list item
 			var activeItem = spacesEl.querySelector('li.list__item--active');
 			if( activeItem ) {
-				classie.remove(activeItem, 'list__item--active');
+				$(activeItem).removeClass('list__item--active');
 			}
 			// remove class selected (if any) from current space
 			var activeSpaceArea = indoorLevels[selectedLevel - 1].querySelector('svg > .map_space--selected');
 			if( activeSpaceArea ) {
-				classie.remove(activeSpaceArea, 'map_space--selected');
+				$(activeSpaceArea).removeClass('map_space--selected');
 			}
 		}
 	
@@ -467,18 +466,16 @@
 			// shows all levels - we want to show all the spaces for smaller screens 
 			showAllLevels();
 	
-			classie.add(spacesListEl, 'spaces-list--open');
-			classie.add(containerEl, 'container--overflow');
+			$(spacesListEl).addClass('spaces-list--open');
+			$(containerEl).addClass('container--overflow');
 		}
 	
 		/**
 		 * for smaller screens: close search bar
 		 */
 		function closeSearch() {
-			classie.remove(spacesListEl, 'spaces-list--open');
-			classie.remove(containerEl, 'container--overflow');
+			$(spacesListEl).removeClass('spaces-list--open');
+			$(containerEl).removeClass('container--overflow');
 		}
 		
 		init();
-	
-	})(window);
