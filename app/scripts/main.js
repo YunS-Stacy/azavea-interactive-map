@@ -47,7 +47,7 @@
 			// navigation element wrapper
 			const indoornav = document.querySelector('.indoornav'),
 			// show all indoor´s levels ctrl
-			allLevelsCtrl = indoornav.querySelector('.indoornav__button--all-levels'),
+			allLevelsCtrl = document.querySelector('.azavea-header > .header'),
 			// pins
 			pins = [].slice.call(indoorLevelsEl.querySelectorAll('.pin')),
 			// content element
@@ -324,8 +324,6 @@
 				return false;
 			}
 	
-			// control navigation controls state (enabled/disabled)
-			setNavigationState();
 			// transition direction class
 			$(currentLevel).addClass(`level--moveOut${direction}`);
 			// next level element
@@ -431,9 +429,6 @@
 			// resize indoor area
 			$(indoor).removeClass('indoor--content-open');
 			// enable indoor nav ctrls
-			if( isExpanded ) {
-				setNavigationState();
-			}
 			isOpenContentArea = false;
 		}
 	
