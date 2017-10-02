@@ -118,11 +118,9 @@
 	
 			// hovering a pin / clicking a pin
 			pins.forEach(function(pin) {
-				console.log(pin, 'pin')
 				var contentItem = contentEl.querySelector('.content__item[data-space="' + pin.getAttribute('data-space') + '"]');
 	
 				pin.addEventListener('mouseenter', function() {
-					console.log(contentItem, 'mouseenter')
 					if( !isOpenContentArea ) {
 						$(contentItem).addClass('content__item--hover');
 					}
@@ -135,7 +133,6 @@
 				pin.addEventListener('click', function(ev) {
 					ev.preventDefault();
 					// open content for this pin
-					console.log(contentItem, 'contentitem', pin.getAttribute('data-space'), 'open content begins')
 					openContent(pin.getAttribute('data-space'));
 					// remove hover class (showing the title)
 					$(contentItem).removeClass('content__item--hover');
@@ -357,7 +354,6 @@
 		 * Opens/Reveals a content item.
 		 */
 		function openContent(spacerefval) {
-			console.log(spacerefval, 'spacerefval')
 			// if one already shown:
 			if( isOpenContentArea ) {
 				hideSpace();
@@ -375,7 +371,6 @@
 				$(activeItem).removeClass('list__item--active');
 			}
 			// list item gets class active
-			console.log('spacesEl', spacesEl.querySelector(`li[data-space="${spacerefval}"]`))
 			$(spacesEl.querySelector(`li[data-space="${spacerefval}"]`)).addClass('list__item--active');
 	
 			// remove class selected (if any) from current space
