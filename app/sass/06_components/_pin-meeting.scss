@@ -1,0 +1,93 @@
+.-meeting {
+  fill: $meeting;
+
+  >.pin-icon >.-pin {
+    fill: $meeting;
+    fill-opacity: 0.5;
+  }
+
+  &.--london {
+    top: 16vmin;
+    left: 70vmin;
+  }
+
+  &.--paris {
+    top: 17vmin;
+    left: 74vmin;
+  }
+
+  &.--springfield {
+    top: 17vmin;
+    left: 79vmin;
+  }
+  
+  &.--madrid {
+    top: 21vmin;
+    left: 80vmin;
+  }
+
+  &.--kiev {
+    top: 27vmin;
+    left: 81vmin;
+  }
+
+  &.--tokyo {
+    top: 36vmin;
+    left: 81vmin;
+  }
+
+  &.--shanghai {
+    top: 40vmin;
+    left: 81vmin;
+  }
+
+  &.--jakarta {
+    top: 45vmin;
+    left: 80vmin;
+  }
+
+  &.--nairobi {
+    top: 38vmin;
+    left: 41vmin;
+  }
+
+  &.--mumbai {
+    top: 38vmin;
+    left: 29vmin;
+  }
+
+  &.--saigon {
+    top: 38vmin;
+    left: 23vmin;
+  }
+
+  &.--salta {
+    top: 38vmin;
+    left: 12vmin;
+  }
+
+  &.--chicago {
+    top: 18vmin;
+    left: 21vmin;
+  }
+
+  &.--toronto {
+    top: 17vmin;
+    left: 25vmin;
+  }
+
+  &.--newyork {
+    top: 17vmin;
+    left: 29vmin;
+  }
+}
+
+.content__item[data-category='1'] >.content__item-title {
+	color: $meeting;
+}
+
+.grouped-by-category > [data-category='1']:first-child::before,
+.grouped-by-category > :not([data-category='1']) + [data-category='1']::before {
+	content: 'Meeting Room';
+	color: $meeting;
+}
