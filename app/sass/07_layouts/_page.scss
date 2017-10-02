@@ -16,6 +16,7 @@
 }
 
 body {
+	display: inline-flex;
 	font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	color: #515158;
 	background: #f0f0f0;
@@ -178,6 +179,7 @@ button:focus {
 }
 
 .main {
+	flex: none;
 	position: fixed;
 	top: 0;
 	left: 0;
