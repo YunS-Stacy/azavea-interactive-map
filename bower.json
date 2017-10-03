@@ -2,8 +2,9 @@
   "name": "webapp",
   "private": true,
   "dependencies": {
-    "jquery": "~2.1.1"
+    "jquery": "~2.1.1",
+    "modernizr-custom": "./app/scripts/modernizr-custom.js",
+    "list.min": "./app/scripts/list.min.js"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

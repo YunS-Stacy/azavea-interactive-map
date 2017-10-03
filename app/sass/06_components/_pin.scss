@@ -3,7 +3,7 @@
 	position: absolute;
 	width: 5.5vmin;
 	height: 8.25vmin;
-	margin: -8.25vmin 0 0 -2.25vmin; /* let the bottom tip be the reference point for individual coordinates */
+	margin: -8.25vmin 0 0 -2.25vmin;
 	-webkit-transform: rotateZ(-20deg) rotateZ(45deg) rotateX(-70deg);
 	transform: rotateZ(-20deg) rotateZ(45deg) rotateX(-70deg);
 	-webkit-transform-origin: 50% 100%;
